@@ -1,14 +1,18 @@
-# loglib
+# <center> loglib </center>
 A simple logging library written in C
 
 - Usage: 
 ```C
 #include "loglib.h"
+#include <stdio.h>
 
 int main() 
 {
-    slog("Hello World!", LOG_CRITICAL, "root"); 
-    // "Hello World!" - message; LOG_CRITICAL - level; "root" - logger name
+    set_log_out(stdout);
+    set_format("[%YYYY-%M-%d %h:%m:%s,%ms.3] [%lvl.1] [%name] %msg");
+    
+    flog(CRITICAL, "root", "Hello, World!"); 
+    // "Hello, World!" - message; CRITICAL - level; "root" - logger name
     
     return 0;
 }

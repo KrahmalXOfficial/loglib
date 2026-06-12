@@ -2,7 +2,7 @@
 // Created by krahmalx on 24.05.2026.
 //
 #include <stdio.h>
-#include "loglib.h"
+#include "../include/escaping.h"
 
 size_t escape_text(const char *in, char *out, size_t cap) {
     size_t needed = 0;
@@ -15,10 +15,9 @@ size_t escape_text(const char *in, char *out, size_t cap) {
             needed += 2; if (i + 2 < cap) { out[i++]='\\'; out[i++]='r'; }
         } else if (c == '\t') {
             needed += 2; if (i + 2 < cap) { out[i++]='\\'; out[i++]='t'; }
-        } else if (c >= 0x20 && c <= 0x7E) { // печатные ASCII
+        } else if (c >= 0x20 && c <= 0x7E) {
             needed += 1; if (i + 1 < cap) out[i++] = c;
         } else {
-            // остальных выводим как \xHH
             needed += 4; if (i + 4 < cap) {
                 static const char hex[] = "0123456789ABCDEF";
                 out[i++] = '\\';
@@ -28,7 +27,6 @@ size_t escape_text(const char *in, char *out, size_t cap) {
             }
         }
     }
-    // NUL-терминатор (включён в capacity but not in needed)
     if (cap > 0) {
         if (i < cap) out[i] = '\0';
         else out[cap-1] = '\0';
